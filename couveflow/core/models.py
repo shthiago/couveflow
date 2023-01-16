@@ -25,6 +25,7 @@ class Device(CreatedUpdatedMixin):
 class Action(CreatedMixin):
     device = models.ForeignKey(
         Device, on_delete=models.PROTECT, related_name='actions')
+    expression = models.TextField()
     code = models.TextField()
 
 
