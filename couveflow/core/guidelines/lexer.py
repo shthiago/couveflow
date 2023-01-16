@@ -24,6 +24,7 @@ class GuidelineLexer:
         'LOG_GREATER_THAN_EQUAL',
         'LOG_LESS_THAN',
         'LOG_LESS_THAN_EQUAL',
+        'LOG_EQUAL_TO',
         'ARIT_PLUS',
         'ARIT_MINUS',
         'L_PARENTESIS',
@@ -42,6 +43,7 @@ class GuidelineLexer:
     t_LOG_GREATER_THAN_EQUAL = r'>='
     t_LOG_LESS_THAN = r'<'
     t_LOG_LESS_THAN_EQUAL = r'<='
+    t_LOG_EQUAL_TO = r'=='
     t_ARIT_PLUS = r'\+'
     t_ARIT_MINUS = r'-'
     t_L_PARENTESIS = r'\('

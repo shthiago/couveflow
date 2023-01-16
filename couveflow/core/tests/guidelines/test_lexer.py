@@ -47,6 +47,16 @@ class TestLexer:
                     "FLOAT",
                 ]
             ),
+            (
+                "12 + 1 <= 1",
+                [
+                    "INTEGER",
+                    "ARIT_PLUS",
+                    "INTEGER",
+                    "LOG_LESS_THAN_EQUAL",
+                    "INTEGER",
+                ]
+            ),
         ]
     )
     def test_identify_tokens(self, expression: str, token_types: List[str]):

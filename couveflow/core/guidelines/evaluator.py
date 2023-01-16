@@ -56,7 +56,6 @@ class GuidelineEvaluator:
         '''RelationalExpression : ArithmeticExpression RelationalExpressionAux'''
         if p[2] is None:
             p[0] = p[1] not in [0, '']
-
         else:
             op, second = p[2]
             p[0] = RelationalReducer.reduce(p[1], op, second)
@@ -84,6 +83,10 @@ class GuidelineEvaluator:
     def p_relational_lte(self, p: yacc.YaccProduction):
         '''RelationalOperator : LOG_LESS_THAN_EQUAL'''
         p[0] = RelationalOperator.LTE
+
+    def p_relational_eq(self, p: yacc.YaccProduction):
+        '''RelationalOperator : LOG_EQUAL_TO'''
+        p[0] = RelationalOperator.EQ
 
     def p_arit_to_operator(self, p: yacc.YaccProduction):
         '''ArithmeticExpression : Operand ArithmeticExpressionAux'''
