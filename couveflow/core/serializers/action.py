@@ -14,3 +14,5 @@ class ActionSerializer(serializers.Serializer):
             evaluator.evaluate(value)
         except ValueError:
             raise serializers.ValidationError("Invalid expression")
+
+        return value
