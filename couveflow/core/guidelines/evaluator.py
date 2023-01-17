@@ -1,7 +1,10 @@
 from ast import literal_eval
-from ply import yacc
-from couveflow.core.guidelines.functions import get_functions
 
+from ply import yacc
+from loguru import logger
+
+from couveflow.core.guidelines.exceptions import InvalidExpression
+from couveflow.core.guidelines.functions import get_functions
 from couveflow.core.guidelines.lexer import GuidelineLexer
 from couveflow.core.guidelines.reducers import ArithmeticReducer, LogicalReducer, RelationalReducer
 from couveflow.core.guidelines.structures import ArithmeticOperator, LogicalOperator, RelationalOperator
@@ -22,7 +25,8 @@ class GuidelineEvaluator:
         pass
 
     def p_error(self, p: yacc.YaccProduction):
-        print(f"ERROR! {p}")
+        logger.error(f"ERROR! {p}")
+        raise InvalidExpression("Failed to parser expression")
 
     def p_expression_to_logical(self, p: yacc.YaccProduction):
         '''Expression : LogicalExpression'''
