@@ -46,3 +46,14 @@ class TestDeviceRegisterViewSet:
         action = Action.objects.first()
         assert action.expression == data["actions"][0]["expression"]
         assert action.device == device
+
+    def test_recreate_device(self, url: str, client: APIClient, data: Dict):
+        res = client.post(url, data=data, format='json')
+
+        assert res.status_code == status.HTTP_201_CREATED
+
+        res = client.post(url, data=data, format='json')
+
+        assert res.status_code == status.HTTP_409_CONFLICT
+
+        assert Device.objects.count() == 1

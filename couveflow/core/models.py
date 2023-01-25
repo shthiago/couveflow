@@ -1,5 +1,7 @@
 from django.db import models
 
+from couveflow.core.constants import INTERACTION_CHOICES
+
 
 class CreatedMixin(models.Model):
     class Meta:
@@ -39,6 +41,10 @@ class Measure(CreatedMixin):
 class Interaction(CreatedMixin):
     device = models.ForeignKey(
         Device, on_delete=models.PROTECT, related_name='interactions')
+    type = models.CharField(
+        max_length=2,
+        choices=INTERACTION_CHOICES
+    )
 
 
 class Variable(CreatedUpdatedMixin):
