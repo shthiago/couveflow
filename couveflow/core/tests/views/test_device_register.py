@@ -5,7 +5,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from couveflow.core.models import Action, Device, Variable
+from couveflow.core.constants import INTERACTION_REGISTER_DEVICE
+from couveflow.core.models import Action, Device, Interaction, Variable
 from couveflow.core.tests.factories import VariableFactory
 
 
@@ -57,3 +58,12 @@ class TestDeviceRegisterViewSet:
         assert res.status_code == status.HTTP_409_CONFLICT
 
         assert Device.objects.count() == 1
+
+    def test_interaction_registered(self, url: str, client: APIClient, data: Dict):
+        res = client.post(url, data=data, format='json')
+
+        assert res.status_code == status.HTTP_201_CREATED
+
+        assert Interaction.objects.count() == 1
+        interaction = Interaction.objects.first()
+        assert interaction.type == INTERACTION_REGISTER_DEVICE
