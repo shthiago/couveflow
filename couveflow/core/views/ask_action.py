@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from couveflow.core.constants import INTERACTION_ASK_ACTION
 from couveflow.core.guidelines.evaluator import GuidelineEvaluator
 from couveflow.core.models import Device
-from couveflow.core.serializers import DeviceRegisterSerializer
 from couveflow.core.serializers.ask_action import AskActionSerializer
 from couveflow.core.views.utils import register_interaction
 
@@ -29,6 +28,9 @@ class ActionsViewSet(ViewSet):
             data=matched_actions,
             many=True
         )
+
+        register_interaction(device, INTERACTION_ASK_ACTION)
+
         serializer.is_valid()
         return Response(
             data=serializer.validated_data,
