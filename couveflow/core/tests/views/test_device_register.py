@@ -14,25 +14,25 @@ from couveflow.core.tests.factories import VariableFactory
 class TestDeviceRegisterViewSet:
     @pytest.fixture
     def variable(self):
-        return VariableFactory(name="my_var", value=1)
+        return VariableFactory(name='my_var', value=1)
 
     @pytest.fixture
     def data(self, variable: Variable):
         return {
-            "declared_id": "awesome-device",
-            "name": "pe-de-roma",
-            "description": "Monitors for the bonsai",
-            "actions": [
+            'declared_id': 'awesome-device',
+            'name': 'pe-de-roma',
+            'description': 'Monitors for the bonsai',
+            'actions': [
                 {
-                    "expression": f"var('{variable.name}') == 1",
-                    "code": "send_sensor_measure"
+                    'expression': f'var(\'{variable.name}\') == 1',
+                    'code': 'send_sensor_measure'
                 }
             ]
         }
 
     @pytest.fixture
     def url(self):
-        return reverse('device-register-list')
+        return reverse('devices-register-list')
 
     def test_create_device(self, url: str, client: APIClient, data: Dict):
         res = client.post(url, data=data, format='json')
@@ -41,11 +41,11 @@ class TestDeviceRegisterViewSet:
 
         assert Device.objects.count() == 1
         device = Device.objects.first()
-        assert device.declared_id == data["declared_id"]
+        assert device.declared_id == data['declared_id']
 
         assert Action.objects.count() == 1
         action = Action.objects.first()
-        assert action.expression == data["actions"][0]["expression"]
+        assert action.expression == data['actions'][0]['expression']
         assert action.device == device
 
     def test_recreate_device(self, url: str, client: APIClient, data: Dict):

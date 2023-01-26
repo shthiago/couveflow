@@ -4,14 +4,13 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from couveflow.core.constants import INTERACTION_REGISTER_DEVICE
-from couveflow.core.serializers import DeviceRegisterSerializer
 from couveflow.core.models import Device
+from couveflow.core.serializers import DeviceRegisterSerializer
 from couveflow.core.views.utils import register_interaction
 
 
 class DeviceRegisterViewSet(ViewSet):
     serializer_class = DeviceRegisterSerializer
-    queryset = Device.objects.all()
 
     def get_serializer(self, *args, **kwargs) -> DeviceRegisterSerializer:
         serializer = self.serializer_class(*args, **kwargs)

@@ -21,6 +21,11 @@ class DeviceFactory(DjangoModelFactory):
     description = "Measuring anything around"
 
 
+class ActionFactory(DjangoModelFactory):
+    class Meta:
+        model = models.Action
+
+
 class InteractionFactory(DjangoModelFactory):
     class Meta:
         model = models.Interaction
