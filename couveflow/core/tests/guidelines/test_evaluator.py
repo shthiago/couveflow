@@ -99,7 +99,13 @@ class TestGuidelineEvaluator:
             ),
         ],
     )
-    def test_evaluator_variable(self, var_name: str, var_value: Union[str, int, float], expression: str, expected_result: bool):
+    def test_evaluator_variable(
+        self,
+        var_name: str,
+        var_value: Union[str, int, float],
+        expression: str,
+        expected_result: bool
+    ):
         VariableFactory(name=var_name, value=var_value)
         evaluator = GuidelineEvaluator()
         value = evaluator.evaluate(expression)

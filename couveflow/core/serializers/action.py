@@ -14,7 +14,7 @@ class ActionSerializer(serializers.ModelSerializer):
         evaluator = GuidelineEvaluator()
         try:
             evaluator.evaluate(value)
-        except ValueError:
-            raise serializers.ValidationError('Invalid expression')
+        except ValueError as exc:
+            raise serializers.ValidationError('Invalid expression') from exc
 
         return value

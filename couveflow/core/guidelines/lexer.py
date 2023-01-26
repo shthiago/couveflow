@@ -1,3 +1,4 @@
+# pylint: disable=C0103
 from typing import Optional
 
 from ply import lex
@@ -67,7 +68,7 @@ class GuidelineLexer:
         if token.value == 'var':
             token.type = 'VARIABLE'
             return token
-        
+
         if token.value not in FUNCTIONS.keys():
             raise ValueError(f'Invalid function: {token.value}')
 
@@ -76,5 +77,5 @@ class GuidelineLexer:
     t_ignore = ' \t\n'
 
     def t_error(self, token: lex.LexToken):
-        print("Illegal character '%s'" % token.value[0])
+        print(f'Illegal character `{token.value[0]}`')
         token.lexer.skip(1)

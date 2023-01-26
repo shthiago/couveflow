@@ -45,7 +45,7 @@ class TestActionsViewSet:
         assert len(data) == 1
         assert data[0]['action'] == action.code
 
-    def test_ask_action_interaction(self, get_url: Callable, client: APIClient, device: Device, action: Action):
+    def test_ask_action_interaction(self, get_url: Callable, client: APIClient, device: Device):
         url = get_url(device.declared_id)
         res = client.get(url)
 

@@ -63,6 +63,6 @@ class TestLexer:
         lexer = GuidelineLexer()
         lexer.input(expression)
 
-        for type in token_types:
+        for type_ in token_types:
             token = lexer.token()
-            assert token.type == type
+            assert token.type == type_

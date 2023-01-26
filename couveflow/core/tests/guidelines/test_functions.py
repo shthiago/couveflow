@@ -45,13 +45,29 @@ class TestLastMeasureFor:
     def measures(self, device: Device):
         return [
             MeasureFactory(
-                device=device, created='2022-12-01 22:00:00', value=0, source_label="my_sensor"),
+                device=device,
+                created='2022-12-01 22:00:00',
+                value=0,
+                source_label="my_sensor"
+            ),
             MeasureFactory(
-                device=device, created='2022-12-01 22:35:00', value=12, source_label="my_sensor"),
+                device=device,
+                created='2022-12-01 22:35:00',
+                value=12,
+                source_label="my_sensor"
+            ),
             MeasureFactory(
-                device=device, created='2022-12-05 22:00:00', value=42, source_label="my_sensor"),
+                device=device,
+                created='2022-12-05 22:00:00',
+                value=42,
+                source_label="my_sensor"
+            ),
             MeasureFactory(
-                device=device, created='2023-12-05 22:00:00', value=84, source_label="another_sensor"),
+                device=device,
+                created='2023-12-05 22:00:00',
+                value=84,
+                source_label="another_sensor"
+            ),
         ]
 
     def test_get_last_measure_for(self, device: Device, measures: List[Measure]):

@@ -1,5 +1,8 @@
+# Disable abstract-method for serializers since the project does not intend to use
+# update method for this serializer yet
+# pylint: disable=W0223
 from typing import Dict
-from rest_framework import serializers, exceptions
+from rest_framework import serializers
 from couveflow.core.models import Device
 
 from couveflow.core.serializers.action import ActionSerializer

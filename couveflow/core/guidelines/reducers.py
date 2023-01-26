@@ -1,7 +1,15 @@
-from couveflow.core.guidelines.structures import ArithmeticOperator, ArithmeticSequence, LogicalOperator, LogicalSequence, Operand, RelationalOperator
+from couveflow.core.guidelines.structures import (
+    ArithmeticOperator,
+    ArithmeticSequence,
+    LogicalOperator,
+    LogicalSequence,
+    Operand,
+    RelationalOperator
+)
 
 
 class LogicalReducer:
+    @staticmethod
     def reduce(base: bool, sequence: LogicalSequence) -> bool:
         result = base
         for operator, value in sequence:
@@ -18,6 +26,7 @@ class LogicalReducer:
 
 
 class RelationalReducer:
+    @staticmethod
     def reduce(first: Operand, operator: RelationalOperator, second: Operand) -> bool:
         match operator:
             case RelationalOperator.EQ:
@@ -38,6 +47,7 @@ class RelationalReducer:
 
 
 class ArithmeticReducer:
+    @staticmethod
     def reduce(base: Operand, sequence: ArithmeticSequence) -> Operand:
         result = base
         for operator, value in sequence:

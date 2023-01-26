@@ -1,7 +1,18 @@
 import pytest
-from couveflow.core.guidelines.reducers import ArithmeticReducer, LogicalReducer, RelationalReducer
+from couveflow.core.guidelines.reducers import (
+    ArithmeticReducer,
+    LogicalReducer,
+    RelationalReducer,
+)
 
-from couveflow.core.guidelines.structures import ArithmeticOperator, ArithmeticSequence, LogicalOperator, LogicalSequence, Operand, RelationalOperator
+from couveflow.core.guidelines.structures import (
+    ArithmeticOperator,
+    ArithmeticSequence,
+    LogicalOperator,
+    LogicalSequence,
+    Operand,
+    RelationalOperator,
+)
 
 
 class TestArithmeticReducer:
@@ -130,8 +141,15 @@ class TestRelationalReducer:
             ),
         ]
     )
-    def test_reduce(self, first: Operand, operator: RelationalOperator, second: Operand, expected_result: bool):
-        assert RelationalReducer.reduce(first, operator, second) == expected_result
+    def test_reduce(
+        self,
+        first: Operand,
+        operator: RelationalOperator,
+        second: Operand,
+        expected_result: bool
+    ):
+        assert RelationalReducer.reduce(
+            first, operator, second) == expected_result
 
     def test_failure(self):
         with pytest.raises(ValueError):

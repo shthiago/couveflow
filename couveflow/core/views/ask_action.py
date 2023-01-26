@@ -41,6 +41,6 @@ class ActionsViewSet(ViewSet):
         try:
             return Device.objects.get(declared_id=declared_id)
 
-        except Device.DoesNotExist:
+        except Device.DoesNotExist as exc:
             raise NotFound(
-                detail=f'Device with declared id `{declared_id}` not found')
+                detail=f'Device with declared id `{declared_id}` not found') from exc

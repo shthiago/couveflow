@@ -1,3 +1,6 @@
+# Ignoring number of public methods and variable naming because of the
+# standards on PLY usage
+# pylint: disable=C0103,R0904
 from ast import literal_eval
 
 from ply import yacc
@@ -6,8 +9,16 @@ from loguru import logger
 from couveflow.core.guidelines.exceptions import InvalidExpression
 from couveflow.core.guidelines.functions import get_functions
 from couveflow.core.guidelines.lexer import GuidelineLexer
-from couveflow.core.guidelines.reducers import ArithmeticReducer, LogicalReducer, RelationalReducer
-from couveflow.core.guidelines.structures import ArithmeticOperator, LogicalOperator, RelationalOperator
+from couveflow.core.guidelines.reducers import (
+    ArithmeticReducer,
+    LogicalReducer,
+    RelationalReducer,
+)
+from couveflow.core.guidelines.structures import (
+    ArithmeticOperator,
+    LogicalOperator,
+    RelationalOperator,
+)
 from couveflow.core.models import Variable
 
 
@@ -22,7 +33,6 @@ class GuidelineEvaluator:
 
     def p_empty(self, p: yacc.YaccProduction):
         '''empty :'''
-        pass
 
     def p_error(self, p: yacc.YaccProduction):
         logger.error(f"ERROR! {p}")
