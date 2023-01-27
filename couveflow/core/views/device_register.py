@@ -5,16 +5,12 @@ from rest_framework import status
 
 from couveflow.core.constants import INTERACTION_REGISTER_DEVICE
 from couveflow.core.serializers import DeviceRegisterSerializer
+from couveflow.core.views.mixins import GetSerializerMixin
 from couveflow.core.views.utils import register_interaction
 
 
-class DeviceRegisterViewSet(ViewSet):
+class DeviceRegisterViewSet(ViewSet, GetSerializerMixin):
     serializer_class = DeviceRegisterSerializer
-
-    def get_serializer(self, *args, **kwargs) -> DeviceRegisterSerializer:
-        serializer = self.serializer_class(*args, **kwargs)
-        serializer.is_valid(raise_exception=True)
-        return serializer
 
     def create(self, request: Request):
         serializer = self.get_serializer(data=request.data)

@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from couveflow.core.views import DeviceRegisterViewSet, ActionsViewSet
+from couveflow.core.views import DeviceRegisterViewSet, ActionsViewSet, MeasureViewSet
 
 router = routers.SimpleRouter()
 router.register(
@@ -12,6 +12,11 @@ router.register(
     r'devices/actions/(?P<declared_id>[\w]+)',
     ActionsViewSet,
     basename="devices-actions"
+)
+router.register(
+    r'devices/measures/(?P<declared_id>[\w]+)',
+    MeasureViewSet,
+    basename="devices-measures"
 )
 
 urlpatterns = router.urls

@@ -3,7 +3,6 @@ import pytest
 
 from couveflow.core import serializers
 from couveflow.core.models import Action, Device, Measure, Variable
-from couveflow.core.serializers.exceptions import DeviceNotFound
 from couveflow.core.serializers.measure import MeasureSerializer
 from couveflow.core.tests.factories import DeviceFactory, VariableFactory
 
