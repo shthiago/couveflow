@@ -95,7 +95,7 @@ class TestMeasureSerializer:
     def data(self, device: Device):
         return {
             'value': 12.0,
-            'device_declared_id': device.declared_id,
+            'device': device.id,
             'source_label': 'my_awesome_sensor'
         }
 
@@ -108,16 +108,4 @@ class TestMeasureSerializer:
         measure = Measure.objects.first()
         assert measure.value == data['value']
         assert measure.source_label == data['source_label']
-        assert measure.device.declared_id == data['device_declared_id']
-
-    def test_measure_creation_device_not_found(self, data: Dict):
-        fail_data = data.copy()
-        fail_data['device_declared_id'] = 'imprettysureitdoesnotexist'
-        serializer = MeasureSerializer(data=fail_data)
-
-        assert serializer.is_valid()
-
-        with pytest.raises(DeviceNotFound):
-            serializer.save()
-
-        assert Measure.objects.count() == 0
+        assert measure.device.id == data['device']
