@@ -2,7 +2,9 @@ from typing import Dict
 import pytest
 
 from couveflow.core import serializers
-from couveflow.core.models import Action, Device, Variable
+from couveflow.core.models import Action, Device, Measure, Variable
+from couveflow.core.serializers.exceptions import DeviceNotFound
+from couveflow.core.serializers.measure import MeasureSerializer
 from couveflow.core.tests.factories import DeviceFactory, VariableFactory
 
 
@@ -81,3 +83,41 @@ class TestDeviceRegisterSerializer:
         assert Action.objects.count() == 1
         action = Action.objects.first()
         assert device.actions.first() == action
+
+
+@pytest.mark.django_db
+class TestMeasureSerializer:
+    @pytest.fixture
+    def device(self):
+        return DeviceFactory()
+
+    @pytest.fixture
+    def data(self, device: Device):
+        return {
+            'value': 12.0,
+            'device_declared_id': device.declared_id,
+            'source_label': 'my_awesome_sensor'
+        }
+
+    def test_measure_creation(self, data: Dict):
+        serializer = MeasureSerializer(data=data)
+        assert serializer.is_valid()
+        serializer.save()
+
+        assert Measure.objects.count() == 1
+        measure = Measure.objects.first()
+        assert measure.value == data['value']
+        assert measure.source_label == data['source_label']
+        assert measure.device.declared_id == data['device_declared_id']
+
+    def test_measure_creation_device_not_found(self, data: Dict):
+        fail_data = data.copy()
+        fail_data['device_declared_id'] = 'imprettysureitdoesnotexist'
+        serializer = MeasureSerializer(data=fail_data)
+
+        assert serializer.is_valid()
+
+        with pytest.raises(DeviceNotFound):
+            serializer.save()
+
+        assert Measure.objects.count() == 0

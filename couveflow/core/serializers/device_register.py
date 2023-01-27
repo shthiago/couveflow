@@ -6,7 +6,7 @@ from rest_framework import serializers
 from couveflow.core.models import Device
 
 from couveflow.core.serializers.action import ActionSerializer
-from couveflow.core.serializers.exceptions import DeviceRecreationAttemptException
+from couveflow.core.serializers.exceptions import DeviceRecreationAttempt
 
 
 class DeviceRegisterSerializer(serializers.Serializer):
@@ -20,7 +20,7 @@ class DeviceRegisterSerializer(serializers.Serializer):
         device, created = Device.objects.get_or_create(**validated_data)
 
         if not created:
-            raise DeviceRecreationAttemptException()
+            raise DeviceRecreationAttempt()
 
         action_serializer = ActionSerializer(data=actions, many=True)
         action_serializer.is_valid(raise_exception=True)
