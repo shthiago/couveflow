@@ -35,7 +35,13 @@ class TestActionsViewSet:
             return reverse('devices-actions-ask', args=(declared_id,))
         return wrapped
 
-    def test_ask_action(self, get_url: Callable, auth_client: APIClient, device: Device, action: Action):
+    def test_ask_action(
+        self,
+        get_url: Callable,
+        auth_client: APIClient,
+        device: Device,
+        action: Action,
+    ):
         url = get_url(device.declared_id)
         res = auth_client.get(url)
 
@@ -46,7 +52,12 @@ class TestActionsViewSet:
         assert len(data) == 1
         assert data[0]['action'] == action.code
 
-    def test_ask_action_interaction(self, get_url: Callable, auth_client: APIClient, device: Device):
+    def test_ask_action_interaction(
+            self,
+            get_url: Callable,
+            auth_client: APIClient,
+            device: Device,
+    ):
         url = get_url(device.declared_id)
         res = auth_client.get(url)
 

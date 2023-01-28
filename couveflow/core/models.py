@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from couveflow.core.constants import INTERACTION_CHOICES
@@ -23,7 +23,7 @@ class Device(CreatedUpdatedMixin):
     declared_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    owner = models.ForeignKey(User, on_delete=models.PROTECT)
+    owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
 
     def __str__(self):
         return self.declared_id
