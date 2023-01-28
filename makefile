@@ -1,4 +1,5 @@
 lint:
+	isort .
 	pylint --django-settings-module=couveflow.settings couveflow/
 
 test:
