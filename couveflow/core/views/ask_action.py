@@ -1,16 +1,16 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
-from rest_framework.viewsets import ViewSet
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from couveflow.core.constants import INTERACTION_ASK_ACTION
 from couveflow.core.guidelines.evaluator import GuidelineEvaluator
 from couveflow.core.serializers import AskActionSerializer
 from couveflow.core.views.mixins import GetDeviceMixin, GetSerializerMixin
-from couveflow.core.views.utils import register_interaction
 from couveflow.core.views.permissions import IsDeviceOwner
+from couveflow.core.views.utils import register_interaction
 
 
 class ActionsViewSet(ViewSet, GetSerializerMixin, GetDeviceMixin):

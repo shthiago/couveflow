@@ -1,4 +1,5 @@
 from typing import Union
+
 import pytest
 
 from couveflow.core.guidelines.evaluator import GuidelineEvaluator

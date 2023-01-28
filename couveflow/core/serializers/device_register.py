@@ -2,9 +2,10 @@
 # update method for this serializer yet
 # pylint: disable=W0223
 from typing import Dict
-from rest_framework import serializers
-from couveflow.core.models import Device
 
+from rest_framework import serializers
+
+from couveflow.core.models import Device
 from couveflow.core.serializers.action import ActionSerializer
 from couveflow.core.serializers.exceptions import DeviceRecreationAttempt
 

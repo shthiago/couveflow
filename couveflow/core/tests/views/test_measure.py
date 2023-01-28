@@ -3,8 +3,8 @@ from typing import Callable, Dict
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
 
 from couveflow.core.constants import INTERACTION_SAVE_MEASURE
 from couveflow.core.models import Device, Interaction, Measure

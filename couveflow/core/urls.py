@@ -1,6 +1,7 @@
 from rest_framework import routers
 
-from couveflow.core.views import DeviceRegisterViewSet, ActionsViewSet, MeasureViewSet
+from couveflow.core.views import (ActionsViewSet, DeviceRegisterViewSet,
+                                  MeasureViewSet)
 
 router = routers.SimpleRouter()
 router.register(

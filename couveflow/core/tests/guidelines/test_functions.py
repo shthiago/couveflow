@@ -2,9 +2,10 @@ from typing import List
 
 import pytest
 
-from couveflow.core.models import Device, Interaction, Measure
-from couveflow.core.tests.factories import DeviceFactory, InteractionFactory, MeasureFactory
 from couveflow.core.guidelines import functions
+from couveflow.core.models import Device, Interaction, Measure
+from couveflow.core.tests.factories import (DeviceFactory, InteractionFactory,
+                                            MeasureFactory)
 
 
 @pytest.mark.django_db

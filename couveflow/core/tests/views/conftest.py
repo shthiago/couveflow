@@ -1,7 +1,7 @@
 # pylint: disable=W0621
 import pytest
-from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
 
 from couveflow.tests.factories import TokenFactory
 

@@ -1,9 +1,8 @@
 """Functions for guidelines"""
-from typing import Callable, Dict, Optional
 from datetime import datetime
+from typing import Callable, Dict, Optional
 
 from couveflow.core.models import Interaction, Measure
-
 
 GUIDELINES_GLOBAL_VAR = '__GUIDELINE_FUNCTIONS'
 

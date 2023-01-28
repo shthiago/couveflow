@@ -3,22 +3,18 @@
 # pylint: disable=C0103,R0904
 from ast import literal_eval
 
-from ply import yacc
 from loguru import logger
+from ply import yacc
 
 from couveflow.core.guidelines.exceptions import InvalidExpression
 from couveflow.core.guidelines.functions import get_functions
 from couveflow.core.guidelines.lexer import GuidelineLexer
-from couveflow.core.guidelines.reducers import (
-    ArithmeticReducer,
-    LogicalReducer,
-    RelationalReducer,
-)
-from couveflow.core.guidelines.structures import (
-    ArithmeticOperator,
-    LogicalOperator,
-    RelationalOperator,
-)
+from couveflow.core.guidelines.reducers import (ArithmeticReducer,
+                                                LogicalReducer,
+                                                RelationalReducer)
+from couveflow.core.guidelines.structures import (ArithmeticOperator,
+                                                  LogicalOperator,
+                                                  RelationalOperator)
 from couveflow.core.models import Variable
 
 

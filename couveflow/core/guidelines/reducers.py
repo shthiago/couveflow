@@ -1,11 +1,8 @@
-from couveflow.core.guidelines.structures import (
-    ArithmeticOperator,
-    ArithmeticSequence,
-    LogicalOperator,
-    LogicalSequence,
-    Operand,
-    RelationalOperator
-)
+from couveflow.core.guidelines.structures import (ArithmeticOperator,
+                                                  ArithmeticSequence,
+                                                  LogicalOperator,
+                                                  LogicalSequence, Operand,
+                                                  RelationalOperator)
 
 
 class LogicalReducer:

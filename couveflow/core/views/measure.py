@@ -1,9 +1,9 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
-from rest_framework.viewsets import ViewSet
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from couveflow.core.constants import INTERACTION_SAVE_MEASURE
 from couveflow.core.serializers import MeasureSerializer

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from couveflow.core.models import Measure
+
 from .device import DeviceSerializer
 
 
