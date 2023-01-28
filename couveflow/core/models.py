@@ -19,16 +19,22 @@ class CreatedUpdatedMixin(models.Model):
 
 
 class Device(CreatedUpdatedMixin):
-    declared_id = models.TextField()
-    name = models.TextField()
-    description = models.TextField()
+    declared_id = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.declared_id
 
 
 class Action(CreatedMixin):
     device = models.ForeignKey(
         Device, on_delete=models.PROTECT, related_name='actions')
     expression = models.TextField()
-    code = models.TextField()
+    code = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'IF ({self.expression}) THEN {self.code}'
 
 
 class Measure(CreatedMixin):
@@ -48,5 +54,5 @@ class Interaction(CreatedMixin):
 
 
 class Variable(CreatedUpdatedMixin):
-    name = models.TextField()
+    name = models.CharField(max_length=255)
     value = models.JSONField()

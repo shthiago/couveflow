@@ -157,5 +157,3 @@ cython_debug/
 
 parser.out
 parsetab.py
-
-db.sqlite3
