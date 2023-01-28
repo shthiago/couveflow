@@ -70,3 +70,8 @@ class TestDeviceRegisterViewSet:
         assert Interaction.objects.count() == 1
         interaction = Interaction.objects.first()
         assert interaction.type == INTERACTION_REGISTER_DEVICE
+
+    def test_interaction_unauthorized(self, url: str, client: APIClient, data: Dict):
+        res = client.post(url, data=data, format='json')
+
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED

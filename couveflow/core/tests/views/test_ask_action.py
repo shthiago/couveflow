@@ -4,6 +4,7 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 
 from couveflow.core.constants import INTERACTION_ASK_ACTION
 from couveflow.core.models import Action, Device, Interaction, Variable
@@ -17,8 +18,8 @@ class TestActionsViewSet:
         return VariableFactory(name='my_var', value=1)
 
     @pytest.fixture
-    def device(self):
-        return DeviceFactory()
+    def device(self, user_token: Token):
+        return DeviceFactory(owner=user_token.user)
 
     @pytest.fixture
     def action(self, device: Device, variable: Variable):
@@ -34,9 +35,9 @@ class TestActionsViewSet:
             return reverse('devices-actions-ask', args=(declared_id,))
         return wrapped
 
-    def test_ask_action(self, get_url: Callable, client: APIClient, device: Device, action: Action):
+    def test_ask_action(self, get_url: Callable, auth_client: APIClient, device: Device, action: Action):
         url = get_url(device.declared_id)
-        res = client.get(url)
+        res = auth_client.get(url)
 
         assert res.status_code == status.HTTP_200_OK
 
@@ -45,9 +46,9 @@ class TestActionsViewSet:
         assert len(data) == 1
         assert data[0]['action'] == action.code
 
-    def test_ask_action_interaction(self, get_url: Callable, client: APIClient, device: Device):
+    def test_ask_action_interaction(self, get_url: Callable, auth_client: APIClient, device: Device):
         url = get_url(device.declared_id)
-        res = client.get(url)
+        res = auth_client.get(url)
 
         assert res.status_code == status.HTTP_200_OK
 
@@ -56,8 +57,14 @@ class TestActionsViewSet:
         assert interaction.device.declared_id == device.declared_id
         assert interaction.type == INTERACTION_ASK_ACTION
 
-    def test_ask_action_unexistent_device(self, get_url: Callable, client: APIClient):
+    def test_ask_action_unexistent_device(self, get_url: Callable, auth_client: APIClient):
         url = get_url('pizza')
+        res = auth_client.get(url)
+
+        assert res.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_ask_action_unauthorized(self, get_url: Callable, client: APIClient, device: Device):
+        url = get_url(device.declared_id)
         res = client.get(url)
 
-        assert res.status_code == status.HTTP_404_NOT_FOUND
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED

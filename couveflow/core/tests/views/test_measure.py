@@ -4,6 +4,7 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 
 from couveflow.core.constants import INTERACTION_SAVE_MEASURE
 from couveflow.core.models import Device, Interaction, Measure
@@ -13,8 +14,8 @@ from couveflow.core.tests.factories import DeviceFactory
 @pytest.mark.django_db
 class TestActionsViewSet:
     @pytest.fixture
-    def device(self):
-        return DeviceFactory()
+    def device(self, user_token: Token):
+        return DeviceFactory(owner=user_token.user)
 
     @pytest.fixture
     def get_url(self):
@@ -32,12 +33,12 @@ class TestActionsViewSet:
     def test_register_measure(
         self,
         get_url: Callable,
-        client: APIClient,
+        auth_client: APIClient,
         device: Device,
         data: Dict
     ):
         url = get_url(device.declared_id)
-        res = client.post(url, data=data, format='json')
+        res = auth_client.post(url, data=data, format='json')
 
         assert res.status_code == status.HTTP_200_OK
 
@@ -51,12 +52,12 @@ class TestActionsViewSet:
     def test_register_measure_interaction(
         self,
         get_url: Callable,
-        client: APIClient,
+        auth_client: APIClient,
         device: Device,
         data: Dict
     ):
         url = get_url(device.declared_id)
-        res = client.post(url, data=data)
+        res = auth_client.post(url, data=data)
 
         assert res.status_code == status.HTTP_200_OK
 
@@ -65,8 +66,20 @@ class TestActionsViewSet:
         assert interaction.device.declared_id == device.declared_id
         assert interaction.type == INTERACTION_SAVE_MEASURE
 
-    def test_ask_action_unexistent_device(self, get_url: Callable, client: APIClient):
+    def test_ask_action_unexistent_device(self, get_url: Callable, auth_client: APIClient):
         url = get_url('pizza')
-        res = client.post(url)
+        res = auth_client.post(url)
 
-        assert res.status_code == status.HTTP_404_NOT_FOUND
+        assert res.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_register_measure_unauthorized(
+        self,
+        get_url: Callable,
+        client: APIClient,
+        device: Device,
+        data: Dict
+    ):
+        url = get_url(device.declared_id)
+        res = client.post(url, data=data)
+
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED
