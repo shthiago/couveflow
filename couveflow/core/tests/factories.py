@@ -1,10 +1,12 @@
 from datetime import datetime
-from factory.django import DjangoModelFactory
-from factory import SubFactory, LazyAttribute
+
+import factory
+
 from couveflow.core import models
+from couveflow.tests.factories import UserFactory
 
 
-class VariableFactory(DjangoModelFactory):
+class VariableFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Variable
 
@@ -12,33 +14,34 @@ class VariableFactory(DjangoModelFactory):
     value = 'yes'
 
 
-class DeviceFactory(DjangoModelFactory):
+class DeviceFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Device
 
     declared_id = "my_awesome_device"
     name = "My awesome monitoring device"
     description = "Measuring anything around"
+    owner = factory.SubFactory(UserFactory)
 
 
-class ActionFactory(DjangoModelFactory):
+class ActionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Action
 
 
-class InteractionFactory(DjangoModelFactory):
+class InteractionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Interaction
 
-    device = SubFactory(DeviceFactory)
-    created = LazyAttribute(datetime.now)
+    device = factory.SubFactory(DeviceFactory)
+    created = factory.LazyAttribute(datetime.now)
 
 
-class MeasureFactory(DjangoModelFactory):
+class MeasureFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Measure
 
-    device = SubFactory(DeviceFactory)
-    created = LazyAttribute(datetime.now)
+    device = factory.SubFactory(DeviceFactory)
+    created = factory.LazyAttribute(datetime.now)
     source_label = "any_label"
     value = 42

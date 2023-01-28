@@ -14,6 +14,7 @@ class DeviceRegisterSerializer(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField()
     actions = ActionSerializer(many=True)
+    owner_id = serializers.IntegerField()
 
     def create(self, validated_data: Dict):
         actions = validated_data.pop("actions")

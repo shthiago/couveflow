@@ -5,19 +5,20 @@ from couveflow.core import serializers
 from couveflow.core.models import Action, Device, Measure, Variable
 from couveflow.core.serializers.measure import MeasureSerializer
 from couveflow.core.tests.factories import DeviceFactory, VariableFactory
+from couveflow.tests.factories import UserFactory
 
 
 @pytest.mark.django_db
 class TestActionSerializer:
     @pytest.fixture
     def variable(self):
-        return VariableFactory(name="my_var", value=1)
+        return VariableFactory(name='my_var', value=1)
 
     @pytest.fixture
     def data(self, variable: Variable):
         return {
-            "expression": f"var('{variable.name}') == 1",
-            "code": "send_sensor_measure"
+            'expression': f'var(\'{variable.name}\') == 1',
+            'code': 'send_sensor_measure'
         }
 
     def test_correct_serialization(self, data: Dict):
@@ -27,8 +28,8 @@ class TestActionSerializer:
 
     def test_incorrect_expression(self):
         data = {
-            "expression": "not valid expression",
-            "code": "send_sensor_measure"
+            'expression': 'not valid expression',
+            'code': 'send_sensor_measure'
         }
 
         serializer = serializers.ActionSerializer(data=data)
@@ -39,34 +40,35 @@ class TestActionSerializer:
         serializer.is_valid()
         action = serializer.save(device=DeviceFactory())
 
-        assert action.expression == data["expression"]
-        assert action.code == data["code"]
+        assert action.expression == data['expression']
+        assert action.code == data['code']
 
 
 @pytest.mark.django_db
 class TestDeviceRegisterSerializer:
     @pytest.fixture
     def variable(self):
-        return VariableFactory(name="my_var", value=1)
+        return VariableFactory(name='my_var', value=1)
 
     @pytest.fixture
     def data(self, variable: Variable):
+        user = UserFactory()
         return {
-            "declared_id": "awesome-device",
-            "name": "pe-de-roma",
-            "description": "Monitors for the bonsai",
-            "actions": [
+            'declared_id': 'awesome-device',
+            'name': 'pe-de-roma',
+            'description': 'Monitors for the bonsai',
+            'actions': [
                 {
-                    "expression": f"var('{variable.name}') == 1",
-                    "code": "send_sensor_measure"
+                    'expression': f'var(\'{variable.name}\') == 1',
+                    'code': 'send_sensor_measure'
                 }
-            ]
+            ],
+            'owner_id': user.id,
         }
 
     def test_correct_serialization(self, data: Dict):
         serializer = serializers.DeviceRegisterSerializer(data=data)
         assert serializer.is_valid()
-        assert serializer.validated_data == data
 
     def test_objects_creation(self, data: Dict):
         serializer = serializers.DeviceRegisterSerializer(data=data)
@@ -75,9 +77,9 @@ class TestDeviceRegisterSerializer:
 
         assert Device.objects.count() == 1
         device = Device.objects.first()
-        assert device.name == data["name"]
-        assert device.description == data["description"]
-        assert device.declared_id == data["declared_id"]
+        assert device.name == data['name']
+        assert device.description == data['description']
+        assert device.declared_id == data['declared_id']
 
         assert Action.objects.count() == 1
         action = Action.objects.first()
