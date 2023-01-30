@@ -23,6 +23,6 @@ jobs:
         run: doctl registry login --expiry-seconds 600
       - name: Tag image 
         run:
-          docker tag couveflow-api registry.digitalocean.com/couveflow/couveflow-api:latest
+          docker tag couveflow-api registry.digitalocean.com/thiagosh-website-apps/couveflow-api:latest
       - name: Push image to DO Container Registry 
-        run: docker push registry.digitalocean.com/couveflow/couveflow-api:latest
+        run: docker push registry.digitalocean.com/thiagosh-website-apps/couveflow-api:latest
