@@ -1,0 +1,43 @@
+services:
+  web:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: db_password
+      DB_HOST: postgres
+      DB_NAME: postgres
+      DB_PORT: 5432
+      SECRET_KEY: anykey
+      ALLOWED_HOSTS: "['localhost']"
+      DEBUG: 'true'
+      PORT: 8000
+
+    depends_on:
+      - postgres
+
+    volumes:
+      - "./:/opt/"
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: db_password
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
+
+    logging:
+      driver: none
+
+volumes:
+  postgres_data:
