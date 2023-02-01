@@ -18,7 +18,7 @@ class DeviceRegisterViewSet(ViewSet, GetSerializerMixin):
 
     def create(self, request: Request):
         data = request.data
-        data['owner'] = request.user
+        data['owner_id'] = request.user.id
         serializer = self.get_serializer(data=data)
         device = serializer.save()
         register_interaction(device, INTERACTION_REGISTER_DEVICE)

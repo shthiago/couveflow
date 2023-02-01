@@ -18,7 +18,7 @@ class TestDeviceRegisterViewSet:
         return VariableFactory(name='my_var', value=1)
 
     @pytest.fixture
-    def data(self, variable: Variable, user_token: Token):
+    def data(self, variable: Variable):
         return {
             'declared_id': 'awesome-device',
             'name': 'pe-de-roma',
@@ -29,7 +29,6 @@ class TestDeviceRegisterViewSet:
                     'code': 'send_sensor_measure'
                 }
             ],
-            'owner_id': user_token.user.id,
         }
 
     @pytest.fixture
