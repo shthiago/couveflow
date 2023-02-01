@@ -1,0 +1,28 @@
+
+
+name: Build and publish on push to main
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+      - name: Build image 
+        run: docker build -t couveflow-api .
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.REGISTRY_AUTH_TOKEN }}
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag image 
+        run:
+          docker tag couveflow-api registry.digitalocean.com/thiagosh-website-apps/couveflow-api:latest
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/thiagosh-website-apps/couveflow-api:latest
