@@ -9,3 +9,7 @@ Couveflow aims to be a assets monitoring system composed by a central passive se
 Making it simple, Couveflow works as a dialog between the server and the cliens.
 
 A client can ask Couveflow to be registered, explanning what are it's actions and when they should be activated, through expressions using the language described [here](couveflow/core/guidelines/evaluator.py). The client then can ping the server asking for his next action (if there is one), and the server evaluate the expressions to get what it should tell client to do.
+
+# Nodes
+
+Example codes for nodes to communicate with Couveflow can be found [here](https://github.com/shthiago/couveflow-nodes).
