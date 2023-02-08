@@ -15,3 +15,6 @@ build:
 
 migrate:
 	docker-compose -f docker-compose-dev.yml run web python manage.py migrate
+
+makemigrations:
+	docker-compose -f docker-compose-dev.yml run web  python manage.py makemigrations

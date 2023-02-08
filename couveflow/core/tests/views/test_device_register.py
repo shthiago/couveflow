@@ -26,7 +26,8 @@ class TestDeviceRegisterViewSet:
             'actions': [
                 {
                     'expression': f'var(\'{variable.name}\') == 1',
-                    'code': 'send_sensor_measure'
+                    'code': 'send_sensor_measure',
+                    'params': {},
                 }
             ],
         }

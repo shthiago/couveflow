@@ -34,6 +34,7 @@ class Action(CreatedMixin):
         Device, on_delete=models.PROTECT, related_name='actions')
     expression = models.TextField()
     code = models.CharField(max_length=255)
+    params = models.JSONField()
 
     def __str__(self):
         return f'IF ({self.expression}) THEN {self.code}'

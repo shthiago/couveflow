@@ -7,7 +7,7 @@ from couveflow.core.models import Action
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ('expression', 'code')
+        fields = ('expression', 'code', 'params')
 
     def validate_expression(self, value: str):
         """Check if the expression is valid using the parser"""

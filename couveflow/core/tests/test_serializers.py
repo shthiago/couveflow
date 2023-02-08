@@ -19,7 +19,8 @@ class TestActionSerializer:
     def data(self, variable: Variable):
         return {
             'expression': f'var(\'{variable.name}\') == 1',
-            'code': 'send_sensor_measure'
+            'code': 'send_sensor_measure',
+            'params': {'key': 'a'},
         }
 
     def test_correct_serialization(self, data: Dict):
@@ -30,7 +31,8 @@ class TestActionSerializer:
     def test_incorrect_expression(self):
         data = {
             'expression': 'not valid expression',
-            'code': 'send_sensor_measure'
+            'code': 'send_sensor_measure',
+            'params': {'key': 'a'},
         }
 
         serializer = serializers.ActionSerializer(data=data)
@@ -61,7 +63,8 @@ class TestDeviceRegisterSerializer:
             'actions': [
                 {
                     'expression': f'var(\'{variable.name}\') == 1',
-                    'code': 'send_sensor_measure'
+                    'code': 'send_sensor_measure',
+                    'params': {'key': 'a'},
                 }
             ],
             'owner_id': user.id,
