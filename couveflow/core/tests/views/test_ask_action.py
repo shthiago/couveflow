@@ -28,6 +28,7 @@ class TestActionsViewSet:
             device=device,
             expression=f"var('{variable.name}') == 1",
             code='send_sensor_measure',
+            params={},
         )
 
     @pytest.fixture
