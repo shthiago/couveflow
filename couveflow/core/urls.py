@@ -10,12 +10,12 @@ router.register(
     basename="devices-register"
 )
 router.register(
-    r'devices/(?P<declared_id>[\w]+)/actions',
+    r'devices/(?P<declared_id>[\w-]+)/actions',
     ActionsViewSet,
     basename="devices-actions"
 )
 router.register(
-    r'devices/(?P<declared_id>[\w]+)/measures',
+    r'devices/(?P<declared_id>[\w-]+)/measures',
     MeasureViewSet,
     basename="devices-measures"
 )
