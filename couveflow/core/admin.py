@@ -32,6 +32,29 @@ class InteractionInline(admin.TabularInline):
         return qs.filter(id__in=last_ids)
 
 
+class MeasuresInline(admin.TabularInline):
+    LIMIT_MEASURES_ON_DEVICE_ADMIN = 10
+
+    model = models.Measure
+    verbose_name = f'Last {LIMIT_MEASURES_ON_DEVICE_ADMIN} measures'
+    fields = ('source_label', 'value', 'created')
+    readonly_fields = ('created',)
+
+    def has_add_permission(self, *args, **kwargs) -> bool:
+        return False
+
+    def has_delete_permission(self, *args, **kwargs) -> bool:
+        return False
+
+    def has_change_permission(self, *args, **kwargs) -> bool:
+        return False
+
+    def get_queryset(self, *args, **kwargs) -> QuerySet[models.Interaction]:
+        qs = super().get_queryset(*args, **kwargs).order_by('-created')
+        last_ids = qs[:self.LIMIT_MEASURES_ON_DEVICE_ADMIN].values_list('id')
+        return qs.filter(id__in=last_ids)
+
+
 @admin.register(models.Device)
 class DeviceAdmin(admin.ModelAdmin):
     list_display = [
@@ -42,4 +65,5 @@ class DeviceAdmin(admin.ModelAdmin):
     inlines = [
         ActionInline,
         InteractionInline,
+        MeasuresInline,
     ]
