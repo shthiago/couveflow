@@ -37,11 +37,17 @@ class InteractionFactory(factory.django.DjangoModelFactory):
     created = factory.LazyAttribute(datetime.now)
 
 
+class SensorFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Sensor
+
+    device = factory.SubFactory(DeviceFactory)
+    label = "any_label"
+
+
 class MeasureFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Measure
 
-    device = factory.SubFactory(DeviceFactory)
-    created = factory.LazyAttribute(datetime.now)
-    source_label = "any_label"
+    sensor = factory.SubFactory(SensorFactory)
     value = 42

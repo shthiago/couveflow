@@ -9,7 +9,8 @@ from couveflow.core.constants import INTERACTION_SAVE_MEASURE
 from couveflow.core.serializers import MeasureSerializer
 from couveflow.core.views.mixins import GetDeviceMixin, GetSerializerMixin
 from couveflow.core.views.permissions import IsDeviceOwner
-from couveflow.core.views.utils import register_interaction
+from couveflow.core.views.utils import (get_or_create_sensor,
+                                        register_interaction)
 
 
 class MeasureViewSet(ViewSet, GetSerializerMixin, GetDeviceMixin):
@@ -20,10 +21,13 @@ class MeasureViewSet(ViewSet, GetSerializerMixin, GetDeviceMixin):
     @action(methods=['post'], detail=False)
     def register(self, request: Request, declared_id: str):
         device = self.get_device(declared_id)
+        sensor = get_or_create_sensor(
+            device=device,
+            label=request.data.get('source_label')
+        )
         serializer = self.get_serializer(data={
-            'device': device.id,
             'value': request.data.get('value'),
-            'source_label': request.data.get('source_label'),
+            'sensor': sensor.id,
         })
         serializer.save()
         register_interaction(device, INTERACTION_SAVE_MEASURE)

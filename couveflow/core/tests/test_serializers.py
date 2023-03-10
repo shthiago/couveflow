@@ -3,9 +3,10 @@ from typing import Dict
 import pytest
 
 from couveflow.core import serializers
-from couveflow.core.models import Action, Device, Measure, Variable
+from couveflow.core.models import Action, Device, Measure, Sensor, Variable
 from couveflow.core.serializers.measure import MeasureSerializer
-from couveflow.core.tests.factories import DeviceFactory, VariableFactory
+from couveflow.core.tests.factories import (DeviceFactory, SensorFactory,
+                                            VariableFactory)
 from couveflow.tests.factories import UserFactory
 
 
@@ -93,15 +94,14 @@ class TestDeviceRegisterSerializer:
 @pytest.mark.django_db
 class TestMeasureSerializer:
     @pytest.fixture
-    def device(self):
-        return DeviceFactory()
+    def sensor(self):
+        return SensorFactory()
 
     @pytest.fixture
-    def data(self, device: Device):
+    def data(self, sensor: Sensor):
         return {
             'value': 12.0,
-            'device': device.id,
-            'source_label': 'my_awesome_sensor'
+            'sensor': sensor.id,
         }
 
     def test_measure_creation(self, data: Dict):
@@ -112,5 +112,4 @@ class TestMeasureSerializer:
         assert Measure.objects.count() == 1
         measure = Measure.objects.first()
         assert measure.value == data['value']
-        assert measure.source_label == data['source_label']
-        assert measure.device.id == data['device']
+        assert measure.sensor.id == data['sensor']

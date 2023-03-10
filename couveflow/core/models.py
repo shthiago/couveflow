@@ -31,7 +31,7 @@ class Device(CreatedUpdatedMixin):
 
 class Action(CreatedMixin):
     device = models.ForeignKey(
-        Device, on_delete=models.PROTECT, related_name='actions')
+        Device, on_delete=models.CASCADE, related_name='actions')
     expression = models.TextField()
     code = models.CharField(max_length=255)
     params = models.JSONField()
@@ -40,11 +40,16 @@ class Action(CreatedMixin):
         return f'IF ({self.expression}) THEN {self.code}'
 
 
+class Sensor(CreatedMixin):
+    device = models.ForeignKey(
+        Device, on_delete=models.CASCADE, related_name='sensors')
+    label = models.TextField()
+
+
 class Measure(CreatedMixin):
     value = models.DecimalField(decimal_places=2, max_digits=100)
-    device = models.ForeignKey(
-        Device, on_delete=models.PROTECT, related_name='measures')
-    source_label = models.TextField()
+    sensor = models.ForeignKey(
+        Sensor, on_delete=models.CASCADE, related_name='sensors')
 
 
 class Interaction(CreatedMixin):

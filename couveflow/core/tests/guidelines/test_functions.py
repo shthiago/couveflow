@@ -3,9 +3,9 @@ from typing import List
 import pytest
 
 from couveflow.core.guidelines import functions
-from couveflow.core.models import Device, Interaction, Measure
+from couveflow.core.models import Device, Interaction, Measure, Sensor
 from couveflow.core.tests.factories import (DeviceFactory, InteractionFactory,
-                                            MeasureFactory)
+                                            MeasureFactory, SensorFactory)
 
 
 @pytest.mark.django_db
@@ -43,47 +43,49 @@ class TestLastMeasureFor:
         return DeviceFactory()
 
     @pytest.fixture
-    def measures(self, device: Device):
+    def sensor(self, device: Device):
+        return SensorFactory(device=device)
+
+    @pytest.fixture
+    def measures(self, sensor: Device):
+        other_sensor = SensorFactory(
+            device=sensor.device, label='other_sensor')
         return [
             MeasureFactory(
-                device=device,
+                sensor=sensor,
                 created='2022-12-01 22:00:00',
                 value=0,
-                source_label="my_sensor"
             ),
             MeasureFactory(
-                device=device,
+                sensor=sensor,
                 created='2022-12-01 22:35:00',
                 value=12,
-                source_label="my_sensor"
             ),
             MeasureFactory(
-                device=device,
+                sensor=sensor,
                 created='2022-12-05 22:00:00',
                 value=42,
-                source_label="my_sensor"
             ),
             MeasureFactory(
-                device=device,
+                sensor=other_sensor,
                 created='2023-12-05 22:00:00',
                 value=84,
-                source_label="another_sensor"
             ),
         ]
 
-    def test_get_last_measure_for(self, device: Device, measures: List[Measure]):
+    def test_get_last_measure_for(self, sensor: Sensor, device: Device, measures: List[Measure]):
         last_measure = measures[-2]
         measure_value = functions.last_measure_for(
             declared_id=device.declared_id,
-            source_label="my_sensor"
+            sensor_label=sensor.label,
         )
 
         assert measure_value == last_measure.value
 
-    def test_get_last_measure_for_none(self, device: Device):
+    def test_get_last_measure_for_none(self, sensor: Sensor, device: Device):
         measure_value = functions.last_measure_for(
             declared_id=device.declared_id,
-            source_label="my_sensor"
+            sensor_label=sensor.label,
         )
 
         assert measure_value is None

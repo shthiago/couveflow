@@ -45,9 +45,9 @@ class TestActionsViewSet:
         assert Measure.objects.count() == 1
         measure = Measure.objects.first()
 
-        assert measure.device == device
+        assert measure.sensor.device == device
         assert measure.value == data['value']
-        assert measure.source_label == data['source_label']
+        assert measure.sensor.label == data['source_label']
 
     def test_register_measure_interaction(
         self,

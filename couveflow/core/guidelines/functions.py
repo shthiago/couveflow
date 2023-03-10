@@ -32,9 +32,9 @@ def last_interaction_timestamp(declared_id: str) -> Optional[datetime]:
 
 
 @guideline_function
-def last_measure_for(declared_id: str, source_label: str) -> Optional[float]:
+def last_measure_for(declared_id: str, sensor_label: str) -> Optional[float]:
     measure = Measure.objects.filter(
-        device__declared_id=declared_id, source_label=source_label).last()
+        sensor__device__declared_id=declared_id, sensor__label=sensor_label).last()
 
     if measure is not None:
         return measure.value

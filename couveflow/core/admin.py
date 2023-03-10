@@ -32,12 +32,22 @@ class InteractionInline(admin.TabularInline):
         return qs.filter(id__in=last_ids)
 
 
+class SensorInline(admin.TabularInline):
+    model = models.Sensor
+    fields = ('label', 'created')
+    readonly_fields = ('created',)
+    extra = 0
+
+    def has_change_permission(self, *args, **kwargs) -> bool:
+        return False
+
+
 class MeasuresInline(admin.TabularInline):
     LIMIT_MEASURES_ON_DEVICE_ADMIN = 10
 
     model = models.Measure
     verbose_name = f'Last {LIMIT_MEASURES_ON_DEVICE_ADMIN} measures'
-    fields = ('source_label', 'value', 'created')
+    fields = ('value', 'created',)
     readonly_fields = ('created',)
 
     def has_add_permission(self, *args, **kwargs) -> bool:
@@ -65,5 +75,17 @@ class DeviceAdmin(admin.ModelAdmin):
     inlines = [
         ActionInline,
         InteractionInline,
+        SensorInline,
+    ]
+
+
+@admin.register(models.Sensor)
+class SensorAdmin(admin.ModelAdmin):
+    list_display = [
+        'label',
+        'created',
+    ]
+
+    inlines = [
         MeasuresInline,
     ]
