@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
     'couveflow.core',
+    'graphene_django',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+GRAPHENE = {
+    'SCHEMA': 'couveflow.graphql.schema.schema'
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

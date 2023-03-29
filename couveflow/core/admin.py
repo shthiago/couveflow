@@ -83,6 +83,7 @@ class DeviceAdmin(admin.ModelAdmin):
 class SensorAdmin(admin.ModelAdmin):
     list_display = [
         'label',
+        'device',
         'created',
     ]
 

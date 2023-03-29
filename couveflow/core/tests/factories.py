@@ -51,3 +51,7 @@ class MeasureFactory(factory.django.DjangoModelFactory):
 
     sensor = factory.SubFactory(SensorFactory)
     value = 42
+
+    @factory.lazy_attribute
+    def created(self):
+        return datetime.now()
